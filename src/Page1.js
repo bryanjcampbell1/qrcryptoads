@@ -88,8 +88,8 @@ class Page1 extends React.Component {
                   }}
               />
               
-            <div style={{backgroundColor: '#282c34', height:150, textAlign:'center' }}>
-              <Button color='violet' size='huge' onClick={this.enableTorus}>Get Payout with Tourus!</Button>
+            <div style={{padding:40, backgroundColor: '#282c34', height:150, textAlign:'center' }}>
+              <Button  color='violet' size='huge' onClick={this.enableTorus}>Get Payout with Tourus!</Button>
             </div>
           </div>
         );

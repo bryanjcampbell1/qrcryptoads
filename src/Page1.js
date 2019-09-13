@@ -52,7 +52,7 @@ class Page1 extends React.Component {
       if(!this.state.videoPlayed){
         return (
           <div>
-            <Topbar title="Play to Earn $"/>
+            <Topbar title="Play Video to Earn $"/>
             
               <ReactPlayer
                 url='https://www.youtube.com/watch?v=TAZYqXwW5lA' 

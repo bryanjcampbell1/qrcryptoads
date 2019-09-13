@@ -22,6 +22,7 @@ class Page1 extends React.Component {
   componentDidMount() {
     const isTorus = sessionStorage.getItem('pageUsingTorus')
 
+
     if (isTorus) {
       web3Obj.initialize().then(() => {
         this.setStateInfo()
@@ -34,7 +35,9 @@ class Page1 extends React.Component {
       this.setState({ account: accounts[0] })
       web3Obj.web3.eth.getBalance(accounts[0]).then(balance => {
         this.setState({ balance: balance })
-        this.props.history.push('/celar/')
+        if(this.state.videoPlayed){
+          this.props.history.push('/celar/')
+        }
       })
     })
   }

@@ -1,6 +1,7 @@
 import React from 'react'
 import web3Obj from './helper'
 import ReactPlayer from 'react-player'
+import { Button } from 'semantic-ui-react'
 
 function Topbar(props) {
   return (
@@ -10,30 +11,6 @@ function Topbar(props) {
   );
 }
 
-class Bottombar extends React.Component {
-   constructor(props) {
-      super(props);
-   }
-
-   render() {
-      if(!this.props.played){
-        return (
-          <div style={{backgroundColor: '#282c34', height:150, textAlign:'center' }}>
-            
-          </div>
-        );
-      }
-      else{
-        
-        return (
-          <div style={{backgroundColor: '#282c34', height:150, textAlign:'center', color:'white', fontSize:34 }}>
-            Click for Payout
-          </div>
-        );
-      }
-
-    }
-}
 
 class Page1 extends React.Component {
   state = {
@@ -89,13 +66,14 @@ class Page1 extends React.Component {
                 
               />
             
-            <Bottombar played={false}/>
+            <div style={{backgroundColor: '#282c34', height:150, textAlign:'center' }}></div>
           </div>
         );
       }
       else{
         return (
           <div>
+          
             <Topbar title="Thanks for Watching!"/>
             
               <ReactPlayer
@@ -110,7 +88,9 @@ class Page1 extends React.Component {
                   }}
               />
               
-            <Bottombar played={true}/>
+            <div style={{backgroundColor: '#282c34', height:150, textAlign:'center' }}>
+              <Button color='violet' size='huge' onClick={this.enableTorus}>Get Payout with Tourus!</Button>
+            </div>
           </div>
         );
       }
@@ -118,3 +98,4 @@ class Page1 extends React.Component {
 }
 
 export default Page1
+

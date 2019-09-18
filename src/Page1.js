@@ -1,14 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react';
 import web3Obj from './helper'
 import ReactPlayer from 'react-player'
-import { Button } from 'semantic-ui-react'
+import { Button, Dimmer, Image, Segment,Loader, } from 'semantic-ui-react'
 
+/*
+export default class DimmerExampleBlurring extends Component {
+  state = {}
 
+  handleShow = () => this.setState({ active: true })
+  handleHide = () => this.setState({ active: false })
+
+  render() {
+    const { active } = this.state
+
+    return (
+      <div>
+        <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
+          <Dimmer active={active} onClickOutside={this.handleHide} />
+
+          <p>
+            <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+          </p>
+          <p>
+            <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+          </p>
+        </Dimmer.Dimmable>
+
+        <Button.Group>
+          <Button icon='plus' onClick={this.handleShow} />
+          <Button icon='minus' onClick={this.handleHide} />
+        </Button.Group>
+      </div>
+    )
+  }
+}
+
+*/
 //could query for this list
 const urls = ['http://ipfs.io/ipfs/QmWdXR8xZvA2r21xP6sAkfUAfGSQDqPqquomxs7JJPswBM',
               'https://www.youtube.com/watch?v=TAZYqXwW5lA',
               'https://vimeo.com/265363100'];
-              
+
 const x = Math.floor(Math.random() * urls.length);
 
 function Topbar(props) {
@@ -25,7 +57,11 @@ class Page1 extends React.Component {
     account: '',
     balance: '',
     videoPlayed: false,
+    active: false
   }
+
+  handleShow = () => this.setState({ active: true })
+  handleHide = () => this.setState({ active: false })
 
   componentDidMount() {
     const isTorus = sessionStorage.getItem('pageUsingTorus')
@@ -39,6 +75,7 @@ class Page1 extends React.Component {
   }
 
   setStateInfo = () => {
+    
     web3Obj.web3.eth.getAccounts().then(accounts => {
       this.setState({ account: accounts[0] })
       web3Obj.web3.eth.getBalance(accounts[0]).then(balance => {
@@ -51,6 +88,7 @@ class Page1 extends React.Component {
   }
 
   enableTorus = async () => {
+    this.handleShow()
     try {
       await web3Obj.initialize()
       this.setStateInfo()
@@ -61,20 +99,14 @@ class Page1 extends React.Component {
 
   render() {
 
-    
+    const { active } = this.state
 
       if(!this.state.videoPlayed){
         return (
-          <div>
+          <div >
             <Topbar title="Play Video to Earn $"/>
             
               <ReactPlayer
-              //http://127.0.0.1:8080/ipfs/QmWdXR8xZvA2r21xP6sAkfUAfGSQDqPqquomxs7JJPswBM
-                //url='https://www.youtube.com/watch?v=TAZYqXwW5lA' 
-                //url='http://127.0.0.1:8080/ipfs/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte' 
-               // https://ipfstube.erindachtler.me/v/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte
-
-                //url='https://ipfstube.erindachtler.me/v/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte '
                 url={ urls[x] } 
                 playing
                 width='100%'
@@ -94,17 +126,27 @@ class Page1 extends React.Component {
       else{
         return (
           <div>
+          <Dimmer.Dimmable as={Segment} blurring dimmed={active}>
           
             <Topbar title="Thanks for Watching!"/>
+
             
-              <ReactPlayer
-                url={ urls[x] } 
-                width='100%'
-              />
+                <ReactPlayer
+                  url={ urls[x] } 
+                  width='100%'
+                />
+              
               
             <div style={{padding:40, backgroundColor: '#282c34', height:150, textAlign:'center' }}>
               <Button  color='violet' size='huge' onClick={this.enableTorus}>Get Payout with Tourus!</Button>
             </div>
+            </Dimmer.Dimmable>
+            
+            
+              <Dimmer active={this.state.active}>
+                <Loader inverted>Loading</Loader>
+              </Dimmer>
+
           </div>
         );
       }

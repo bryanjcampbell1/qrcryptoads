@@ -3,6 +3,14 @@ import web3Obj from './helper'
 import ReactPlayer from 'react-player'
 import { Button } from 'semantic-ui-react'
 
+
+//could query for this list
+const urls = ['http://ipfs.io/ipfs/QmWdXR8xZvA2r21xP6sAkfUAfGSQDqPqquomxs7JJPswBM',
+              'https://www.youtube.com/watch?v=TAZYqXwW5lA',
+              'https://vimeo.com/265363100'];
+              
+const x = Math.floor(Math.random() * urls.length);
+
 function Topbar(props) {
   return (
     <div style={{backgroundColor: '#282c34', height:100, textAlign:'center' }}>
@@ -52,13 +60,22 @@ class Page1 extends React.Component {
   }
 
   render() {
+
+    
+
       if(!this.state.videoPlayed){
         return (
           <div>
             <Topbar title="Play Video to Earn $"/>
             
               <ReactPlayer
-                url='https://www.youtube.com/watch?v=TAZYqXwW5lA' 
+              //http://127.0.0.1:8080/ipfs/QmWdXR8xZvA2r21xP6sAkfUAfGSQDqPqquomxs7JJPswBM
+                //url='https://www.youtube.com/watch?v=TAZYqXwW5lA' 
+                //url='http://127.0.0.1:8080/ipfs/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte' 
+               // https://ipfstube.erindachtler.me/v/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte
+
+                //url='https://ipfstube.erindachtler.me/v/QmWFRpfxgvt8kjMvHtxbdyKWFiLva14qUjkXr52zB4ugte '
+                url={ urls[x] } 
                 playing
                 width='100%'
                 onEnded={() => {
@@ -81,15 +98,8 @@ class Page1 extends React.Component {
             <Topbar title="Thanks for Watching!"/>
             
               <ReactPlayer
-                url='https://www.youtube.com/watch?v=TAZYqXwW5lA' 
-                playing
+                url={ urls[x] } 
                 width='100%'
-                onEnded={() => {
-                    console.log('onEnded')
-                    this.setState({
-                      videoPlayed: true
-                    });
-                  }}
               />
               
             <div style={{padding:40, backgroundColor: '#282c34', height:150, textAlign:'center' }}>

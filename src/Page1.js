@@ -1,14 +1,14 @@
 import React from 'react';
 import web3Obj from './helper'
 import ReactPlayer from 'react-player'
-import { Button, Dimmer, Image, Segment,Loader, } from 'semantic-ui-react'
+import { Button, Dimmer, Segment,Loader, } from 'semantic-ui-react'
 
 import './Page1.css';
 
 
 //could query for this list
-const urls = ['http://ipfs.io/ipfs/QmWdXR8xZvA2r21xP6sAkfUAfGSQDqPqquomxs7JJPswBM',
-              'https://www.youtube.com/watch?v=TAZYqXwW5lA',
+
+const urls = [/*'https://www.youtube.com/watch?v=TAZYqXwW5lA',*/
               'https://vimeo.com/265363100'];
 
 const x = Math.floor(Math.random() * urls.length);
@@ -23,11 +23,13 @@ function Topbar(props) {
 
 
 class Page1 extends React.Component {
+
   state = {
     account: '',
     balance: '',
     videoPlayed: false,
-    active: false
+    active: false,
+    apiResponse: "" 
   }
 
   handleShow = () => this.setState({ active: true })
@@ -44,6 +46,22 @@ class Page1 extends React.Component {
     }
   }
 
+  callAPI() {
+
+    let fetchStringWithWalletAddress = "http://localhost:9000/payoutAPI/" + this.state.account;
+
+      //fetch("http://localhost:9000/testAPI")
+      fetch(fetchStringWithWalletAddress)
+          .then(res => res.text())
+          .then(res => this.setState({ apiResponse: res }))
+          .then(res => console.log(this.state.apiResponse))
+          .then(  () => {
+            if(this.state.apiResponse == "Success"){
+              this.props.history.push('/page2/')
+            }
+          });
+  }
+
   setStateInfo = () => {
     
     web3Obj.web3.eth.getAccounts().then(accounts => {
@@ -51,7 +69,8 @@ class Page1 extends React.Component {
       web3Obj.web3.eth.getBalance(accounts[0]).then(balance => {
         this.setState({ balance: balance })
         if(this.state.videoPlayed){
-          this.props.history.push('/page2/')
+          this.callAPI();
+          //this.props.history.push('/page2/')
         }
       })
     })
@@ -76,6 +95,13 @@ class Page1 extends React.Component {
           <div >
             <Topbar title="Play Video to Earn $"/>
             
+
+          {/* Need to modify react player.  Some mobile browser will require a click to play.  T
+          This will be impossible because click events have been dissabled.
+
+            Need to fix by adding a videoHasStarted function which disables clicking events
+           */}
+
               <ReactPlayer
                 url={ urls[x] } 
                 playing
